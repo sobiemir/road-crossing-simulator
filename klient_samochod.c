@@ -7,10 +7,10 @@
 #include <pthread.h>
 #include <stdlib.h>
 
-#define MESSAGE_KEY  020626		// identyfikator kolejki komunikatów
-#define SHARED_KEY   060226		// identyfikator pamięci współdzielonej
-#define CSHARED_KEY  022606		// identyfikator pamięci współdzielonej dla samochodów
-#define MESSAGE_SIZE 256		// rozmiar bufora wiadomości w kolejce komunikatów
+#define MESSAGE_KEY  020626     // identyfikator kolejki komunikatów
+#define SHARED_KEY   060226     // identyfikator pamięci współdzielonej
+#define CSHARED_KEY  022606     // identyfikator pamięci współdzielonej dla samochodów
+#define MESSAGE_SIZE 256        // rozmiar bufora wiadomości w kolejce komunikatów
 
 #define MSGSTR_SIZE (256 * sizeof(char) + sizeof(int))
 
@@ -48,15 +48,15 @@ unsigned int numcars = 0;
  */
 struct CAR_INFO
 {
-	int x, y, dir, blinker;		// x, y, kierunek i migacz
-	int width, height;			// wysokość i szerokość
-	int next, xm, ym;			// kierunek w który samochód będzie skręcał
-	int xmax, ymax;				// linia skrętu X i Y
-	int color;					// indeks koloru samochodu
-	int active;					// czy samochód jest aktywny
-	int before, after;			// indeks samochodu przed i pod
-	int interval;				// licznik dla kierunkowskazu
-	pid_t pid;					// identyfikator procesu
+	int x, y, dir, blinker;     // x, y, kierunek i migacz
+	int width, height;          // wysokość i szerokość
+	int next, xm, ym;           // kierunek w który samochód będzie skręcał
+	int xmax, ymax;             // linia skrętu X i Y
+	int color;                  // indeks koloru samochodu
+	int active;                 // czy samochód jest aktywny
+	int before, after;          // indeks samochodu przed i pod
+	int interval;               // licznik dla kierunkowskazu
+	pid_t pid;                  // identyfikator procesu
 };
 
 // samochody
@@ -69,9 +69,9 @@ int             *light_state;
  */
 struct MSG_MESSAGE
 {
-	long Type;					// typ wiadomości
-	int  Msqt;					// typ wewnętrzny wiadomości
-	char Message[MESSAGE_SIZE];	// wiadomość do wyświetlenia
+	long Type;                  // typ wiadomości
+	int  Msqt;                  // typ wewnętrzny wiadomości
+	char Message[MESSAGE_SIZE]; // wiadomość do wyświetlenia
 };
 
 // identyfikator wątku
@@ -678,11 +678,11 @@ int main( int argc, char **argv )
 
 	// informacja o programie
 	printf( "=================================================\n"
-		    "@ " COLOR_GREEN("Symulator skrzyżowania") "\n"
-		    "@ " COLOR_GREEN("Klient samochodów") "\n"
-		    "=================================================\n"
-		    "@ " COLOR_BLUE("Kamil Biały") "\n"
-		    "=================================================\n" );
+			"@ " COLOR_GREEN("Symulator skrzyżowania") "\n"
+			"@ " COLOR_GREEN("Klient samochodów") "\n"
+			"=================================================\n"
+			"@ " COLOR_BLUE("Kamil Biały") "\n"
+			"=================================================\n" );
 
 	// nawiązywanie połączenia z serwerem
 	if( server_handshake() != 0 )

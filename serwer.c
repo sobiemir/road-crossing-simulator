@@ -9,13 +9,13 @@
 #include <sys/wait.h>
 #include <sys/shm.h>
 
-#define SPEED_DOWN   20000		// spowolnienie wyświetlania elementów
-#define MESSAGE_KEY  020626		// identyfikator kolejki komunikatów
-#define SHARED_KEY   060226		// identyfikator pamięci współdzielonej
+#define SPEED_DOWN   20000      // spowolnienie wyświetlania elementów
+#define MESSAGE_KEY  020626     // identyfikator kolejki komunikatów
+#define SHARED_KEY   060226     // identyfikator pamięci współdzielonej
 #define CSHARED_KEY  022606     // identyfikator pamięci współdzielonej dla samochodów
-#define PSHARED_KEY  030633		// identyfikator pamięci współdzielonej dla pieszych
-#define TSHARED_KEY  056306		// identyfikator pamięci współdzielonej dla tramwaju
-#define MESSAGE_SIZE 256		// rozmiar bufora wiadomości w kolejce komunikatów
+#define PSHARED_KEY  030633     // identyfikator pamięci współdzielonej dla pieszych
+#define TSHARED_KEY  056306     // identyfikator pamięci współdzielonej dla tramwaju
+#define MESSAGE_SIZE 256        // rozmiar bufora wiadomości w kolejce komunikatów
 
 #define MSGSTR_SIZE (256 * sizeof(char) + sizeof(int))
 #define MAX_CARS     60
@@ -30,9 +30,9 @@
 #define COLOR_MAGNETA(_T_) "\033[0;35m"    _T_ "\033[0m"
 #define COLOR_BLUE(_T_)    "\033[0;32;34m" _T_ "\033[0m"
 
-#define LIGHT_RUNS        6		// ilość przebiegów (cross_matrix)
-#define LIGHT_RUN_TIME    300	// czas przebiegu - świecenie zielonego światła
-#define LIGHT_YELLOW_TIME 100	// czas świecenia żółtego światła
+#define LIGHT_RUNS        6     // ilość przebiegów (cross_matrix)
+#define LIGHT_RUN_TIME    300   // czas przebiegu - świecenie zielonego światła
+#define LIGHT_YELLOW_TIME 100   // czas świecenia żółtego światła
 
 /**
  * Indeksy light_state w porządku zdefiniowanym w cross_matrix.
@@ -112,11 +112,11 @@ int *light_state;
 /*
 int light_state[] =
 {
-	0, 0, 0,	// lewo [lewo, prawo, prosto]
-	0, 2, 2,	// dół [lewo, prawo, prosto]
-	0, 2, 2,	// góra [lewo, prawo, prosto]
-	0, 0, 0,	// prawo [lewo, prawo, prosto]
-	0, 0, 0, 0	// piesi
+	0, 0, 0,    // lewo [lewo, prawo, prosto]
+	0, 2, 2,    // dół [lewo, prawo, prosto]
+	0, 2, 2,    // góra [lewo, prawo, prosto]
+	0, 0, 0,    // prawo [lewo, prawo, prosto]
+	0, 0, 0, 0  // piesi
 };
 */
 
@@ -156,14 +156,14 @@ int light_state[] =
  */
 struct MSG_MESSAGE
 {
-	long Type;					// typ wiadomości
-	int  Msqt;					// typ wewnętrzny wiadomości
-	char Message[MESSAGE_SIZE];	// wiadomość do wyświetlenia
+	long Type;                  // typ wiadomości
+	int  Msqt;                  // typ wewnętrzny wiadomości
+	char Message[MESSAGE_SIZE]; // wiadomość do wyświetlenia
 };
 
-Display *display;	// połączenie z serwerem
-GC       graphics;	// struktura odpowiedzialna za grafikę
-Window   window;	// struktura okna symulatora
+Display *display;   // połączenie z serwerem
+GC       graphics;  // struktura odpowiedzialna za grafikę
+Window   window;    // struktura okna symulatora
 
 // kolor konturów drogi
 XColor     road_xcolor;
@@ -199,33 +199,33 @@ int blinkerinterval = 30;
 // struktura informacji o samochodzie
 struct CAR_INFO
 {
-	int x, y, dir, blinker;		// x, y, kierunek i migacz
-	int width, height;			// wysokość i szerokość
-	int next, xm, ym;			// kierunek w który samochód będzie skręcał
-	int xmax, ymax;				// linia skrętu X i Y
-	int color;					// indeks koloru samochodu
-	int active;					// czy samochód jest aktywny
-	int before, after;			// indeks samochodu przed i pod
+	int x, y, dir, blinker;     // x, y, kierunek i migacz
+	int width, height;          // wysokość i szerokość
+	int next, xm, ym;           // kierunek w który samochód będzie skręcał
+	int xmax, ymax;             // linia skrętu X i Y
+	int color;                  // indeks koloru samochodu
+	int active;                 // czy samochód jest aktywny
+	int before, after;          // indeks samochodu przed i pod
 	int interval;
-	pid_t pid;					// identyfikator procesu
+	pid_t pid;                  // identyfikator procesu
 }
 *cars;
 
 struct PED_INFO
 {
-	int x, y, dir;			// x, y, kierunek
-	int color, xm, ym;		// kolor, linia skrętu X i Y
-	int active;				// czy pieszy jest aktywny
-	int before, after;		// indeks pieszego przed i po
+	int x, y, dir;          // x, y, kierunek
+	int color, xm, ym;      // kolor, linia skrętu X i Y
+	int active;             // czy pieszy jest aktywny
+	int before, after;      // indeks pieszego przed i po
 	pid_t pid;
 }
 *peds;
 
 struct TRAM_INFO
 {
-	int x, y;			// x, y
-	int width, height;	// szerokość, wysokość
-	int active;			// czy pieszy jest aktywny
+	int x, y;           // x, y
+	int width, height;  // szerokość, wysokość
+	int active;         // czy pieszy jest aktywny
 	int stopy;          // punkt stopu
 }
 *tram;
@@ -308,7 +308,7 @@ void init_colors( void )
 	XParseColor( display, colormap, light_color[2], &light_xcolor[2] );
 	XAllocColor( display, colormap, &light_xcolor[2] );
 
-	// tworzenie kolorów dla samochodów	
+	// tworzenie kolorów dla samochodów 
 	XParseColor( display, colormap, car_color[0], &car_xcolor[0] );
 	XAllocColor( display, colormap, &car_xcolor[0] );
 	XParseColor( display, colormap, car_color[1], &car_xcolor[1] );
@@ -402,11 +402,11 @@ void draw_crossing( void )
 	// pozycje świateł (x, y)
 	static int light_pos[16][2] =
 	{
-		{250, 245}, {250, 285}, {250, 265},				// lewo
-		{325, 300}, {365, 300}, {345, 300},				// dół
-		{305, 170}, {265, 170}, {285, 170},				// góra
-		{380, 225}, {380, 185}, {380, 205},				// prawo
-		{235, 238}, {395, 238}, {318, 155}, {318, 315}	// światła pieszych
+		{250, 245}, {250, 285}, {250, 265},             // lewo
+		{325, 300}, {365, 300}, {345, 300},             // dół
+		{305, 170}, {265, 170}, {285, 170},             // góra
+		{380, 225}, {380, 185}, {380, 205},             // prawo
+		{235, 238}, {395, 238}, {318, 155}, {318, 315}  // światła pieszych
 	};
 	int idx = 0;
 
@@ -982,11 +982,11 @@ int main( int argc, char **argv )
 
 	// informacja
 	printf( "=================================================\n"
-		    "@ " COLOR_GREEN("Symulator skrzyżowania") "\n"
-		    "@ " COLOR_GREEN("Serwer") "\n"
-		    "=================================================\n"
-		    "@ " COLOR_BLUE("Kamil Biały") "\n"
-		    "=================================================\n" );
+			"@ " COLOR_GREEN("Symulator skrzyżowania") "\n"
+			"@ " COLOR_GREEN("Serwer") "\n"
+			"=================================================\n"
+			"@ " COLOR_BLUE("Kamil Biały") "\n"
+			"=================================================\n" );
 	
 	// utwórz proces potomny - odpowiedzialny za wyświetlanie okna
 	wndproc = fork();

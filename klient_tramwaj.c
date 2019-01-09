@@ -7,10 +7,10 @@
 #include <pthread.h>
 #include <stdlib.h>
 
-#define MESSAGE_KEY  020626		// identyfikator kolejki komunikatów
-#define SHARED_KEY   060226		// identyfikator pamięci współdzielonej
-#define TSHARED_KEY  056306		// identyfikator pamięci współdzielonej dla tramwaju
-#define MESSAGE_SIZE 256		// rozmiar bufora wiadomości w kolejce komunikatów
+#define MESSAGE_KEY  020626     // identyfikator kolejki komunikatów
+#define SHARED_KEY   060226     // identyfikator pamięci współdzielonej
+#define TSHARED_KEY  056306     // identyfikator pamięci współdzielonej dla tramwaju
+#define MESSAGE_SIZE 256        // rozmiar bufora wiadomości w kolejce komunikatów
 
 #define MSGSTR_SIZE (256 * sizeof(char) + sizeof(int))
 
@@ -41,9 +41,9 @@ int randinterval = 35;
  */
 struct TRAM_INFO
 {
-	int x, y;			// x, y
-	int width, height;	// szerokość, wysokość
-	int active;			// czy pieszy jest aktywny
+	int x, y;           // x, y
+	int width, height;  // szerokość, wysokość
+	int active;         // czy pieszy jest aktywny
 	int stopy;          // punkt stopu
 };
 
@@ -57,9 +57,9 @@ int              *light_state;
  */
 struct MSG_MESSAGE
 {
-	long Type;					// typ wiadomości
-	int  Msqt;					// typ wewnętrzny wiadomości
-	char Message[MESSAGE_SIZE];	// wiadomość do wyświetlenia
+	long Type;                  // typ wiadomości
+	int  Msqt;                  // typ wewnętrzny wiadomości
+	char Message[MESSAGE_SIZE]; // wiadomość do wyświetlenia
 };
 
 // identyfikator wątku
@@ -398,11 +398,11 @@ int main( int argc, char **argv )
 
 	// informacja o programie
 	printf( "=================================================\n"
-		    "@ " COLOR_GREEN("Symulator skrzyżowania") "\n"
-		    "@ " COLOR_GREEN("Klient tramwaju") "\n"
-		    "=================================================\n"
-		    "@ " COLOR_BLUE("Kamil Biały") "\n"
-		    "=================================================\n" );
+			"@ " COLOR_GREEN("Symulator skrzyżowania") "\n"
+			"@ " COLOR_GREEN("Klient tramwaju") "\n"
+			"=================================================\n"
+			"@ " COLOR_BLUE("Kamil Biały") "\n"
+			"=================================================\n" );
 
 	// nawiązywanie połączenia z serwerem
 	if( server_handshake() != 0 )
